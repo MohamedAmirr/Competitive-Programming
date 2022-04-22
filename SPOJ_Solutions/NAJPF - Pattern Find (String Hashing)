@@ -1,0 +1,105 @@
+//#pragma GCC optimize("Ofast")
+//#pragma GCC target("avx,avx2,fma")
+
+#include <bits/stdc++.h>
+
+#define besmellah ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+using namespace std;
+typedef long long ll;
+typedef long double ld;
+typedef unsigned long long ull;
+const ll INF = 1e9 + 7;
+const int OO = 0x3f3f3f3f;
+const ll LOO = 0x3f3f3f3f3f3f3f3f;
+const ll MOD = 1e9 + 7;
+const ll N = 1e2;
+#define all(a)  a.begin(),a.end()
+#define M_PI 3.14159265358979323846
+#define endl '\n'
+const int dx[] = {+0, +0, +1, -1, +1, -1, +1, -1};
+const int dy[] = {+1, -1, +0, +0, +1, -1, -1, +1};
+int knightDx[] = {+1, -1, +2, +2, -2, -2, +1, -1};
+int knightDy[] = {+2, +2, +1, -1, +1, -1, -2, -2};
+//#define int long long
+
+ll egcd(ll a, ll b, ll &x, ll &y) { /// ax + by = gcd(a,b)
+    if (!b) {
+        x = 1;
+        y = 0;
+        return a;
+    }
+    ll g = egcd(b, a % b, y, x);
+    y -= (a / b) * x;
+    return g;
+}
+
+ll modInverse(ll a, ll m) { /// (a/b)%m = ((a%m)*(modInverse(b)%m))%m
+    ll x, y, g;
+    g = egcd(a, m, x, y);
+    if (g > 1)
+        return -1;
+    return (x + m) % m;
+}
+
+ll pushB(ll h1, ll h2, ll xp) { // xp = x^(lenToPush(h2))
+    return ((h1 * xp) % MOD + h2) % MOD;
+}
+
+ll pushF(ll h1, ll h2, ll xp) { // xp = x^(mainLen(h1))
+    return (h1 + (h2 * xp) % MOD) % MOD;
+}
+
+ll popF(ll h1, ll h2, ll xp) { // xp = x^(mainLen(h1)- lenToPop(h2))
+    return (h1 - ((h2 * xp) % MOD) + MOD) % MOD;
+}
+
+ll popB(ll h1, ll h2, ll xp) {  // xp = x^(LenToPop(h2))
+    return ((((h1 - h2) + MOD) % MOD) * modInverse(xp, MOD) % MOD) % MOD;
+}
+
+ll get(int l, int r, vector<ll> &H, ll xp) {
+    return l > 0 ? popF(H[r], H[l - 1], xp) : H[r];
+}
+
+signed main() {
+    besmellah
+// لا تحسبن المجد تمرا انت اكله لن تبلغ المجد حتي تلعق الصبر ❤
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#else
+    //freopen("", "r", stdin);
+#endif
+    int T = 1;
+    cin >> T;
+    ll x = 128;
+    vector<ll> xp(1e6 + 1);
+    xp[0] = 1;
+    for (int i = 1; i <= 1e6; i++)xp[i] = ((x % MOD) * (xp[i - 1] % MOD)) % MOD;
+//remember data type long long or int
+    while (T--) {
+        string a, b;
+        cin >> a >> b;
+        int hb = 0;
+        for (auto &s: b)hb = pushB(hb, s, x);
+        int ha = 0;
+        for (int i = 0; i < b.size(); ++i)
+            ha = pushB(ha, a[i], x);
+        vector<int> ans;
+        if (ha == hb)ans.push_back(1);
+        for (int i = b.length(); i < a.size(); ++i) {
+            ha = popF(ha, a[i - b.length()], xp[b.length() - 1]);
+            ha = pushB(ha, a[i], x);
+            if (ha == hb)ans.push_back(i - b.length() + 2);
+        }
+        if (ans.empty()) {
+            cout << "Not Found\n"<<endl;
+        } else {
+            cout << ans.size() << endl;
+            for (auto &s: ans)cout << s << ' ';
+            cout << endl << endl;
+        }
+    }
+//remember data type long long or int
+
+}
