@@ -41,24 +41,24 @@ ll modInverse(ll a, ll m) { /// (a/b)%m = ((a%m)*(modInverse(b)%m))%m
     return (x + m) % m;
 }
 
-ll pushB(ll h1, ll h2, ll xp) { // xp = x^(lenTopush(h2))
-    return ((h1 * xp) % MOD + h2) % MOD;
+ll pushB(ll h1, ll h2, ll xp, ll p) { // xp = x^(lenToPush(h2))
+    return ((h1 * xp) % p + h2) % p;
 }
 
-ll pushF(ll h1, ll h2, ll xp) { // xp = x^(mainLen(h1))
-    return (h1 + (h2 * xp) % MOD) % MOD;
+ll pushF(ll h1, ll h2, ll xp, ll p) { // xp = x^(mainLen(h1))
+    return (h1 + (h2 * xp) % p) % p;
 }
 
-ll popF(ll h1, ll h2, ll xp) { // xp = x^(mainLen(h1)- lenToPop(h2))
-    return (h1 - ((h2 * xp) % MOD) + MOD) % MOD;
+ll popF(ll h1, ll h2, ll xp, ll p) { // xp = x^(mainLen(h1)- lenToPop(h2))
+    return (h1 - ((h2 * xp) % p) + p) % p;
 }
 
-ll popB(ll h1, ll h2, ll xp) {  // xp = x^(LenToPop(h2))
-    return ((((h1 - h2) + MOD) % MOD) * modInverse(xp, MOD) % MOD) % MOD;
+ll popB(ll h1, ll h2, ll xp, ll p) {  // xp = x^(LenToPop(h2))
+    return ((((h1 - h2) + p) % p) * modInverse(xp, p) % p) % p;
 }
 
-ll get(int l, int r, vector<ll> &H, ll xp) {
-    return l > 0 ? popF(H[r], H[l - 1], xp) : H[r];
+ll get(int l, int r, vector<ll> &H, ll xp, ll p) {
+    return l > 0 ? popF(H[r], H[l - 1], xp, p) : H[r];
 }
 
 signed main() {
@@ -71,10 +71,10 @@ signed main() {
     //freopen("", "r", stdin);
 #endif
     int T = 1;
-    //cin >> T;
+    cin >> T;
 //remember data type long long or int
     while (T--) {
-
+        
     }
 //remember data type long long or int
 
