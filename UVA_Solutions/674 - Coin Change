@@ -1,0 +1,62 @@
+//#pragma GCC optimize("Ofast")
+//#pragma GCC target("avx,avx2,fma")
+
+#include <bits/stdc++.h>
+
+#define besmellah ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+using namespace std;
+typedef long long ll;
+typedef long double ld;
+typedef unsigned long long ull;
+const ll INF = 1e9 + 7;
+const int OO = 0x3f3f3f3f;
+const ll LOO = 0x3f3f3f3f3f3f3f3f;
+const ll MOD = 1e9 + 7;
+const ll N = 5e2;
+#define all(a)  a.begin(),a.end()
+#define M_PI 3.14159265358979323846
+#define endl '\n'
+const int dx[] = {+0, +0, +1, -1, +1, -1, +1, -1};
+const int dy[] = {+1, -1, +0, +0, +1, -1, -1, +1};
+int knightDx[] = {+1, -1, +2, +2, -2, -2, +1, -1};
+int knightDy[] = {+2, +2, +1, -1, +1, -1, -2, -2};
+//#define int long long
+
+ll solve(int i, ll money, vector<ll> &cur, vector<vector<ll>> &dp) {
+    if (i >= 5 or money < 0)return 0;
+
+    if (money == 0)return 1;
+
+    if (dp[i][money] != -1) {
+        return dp[i][money];
+    }
+
+    ll op1 = 0;
+    op1 += (money - cur[i] >= 0) ? solve(i, money - cur[i], cur, dp) : 0;
+
+    ll op2 = 0;
+    op2 += solve(i + 1, money, cur, dp);
+
+    return dp[i][money] = ((op1 + op2));
+}
+
+signed main() {
+    besmellah
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+    int T = 1;
+//    cin >> T;
+//remember data type long long or int
+    while (T--) {
+        ll flos;
+        vector<vector<ll>> dp(5, vector<ll>(7489 + 1, -1));
+        vector<ll> cur = {1, 5, 10, 25, 50};
+        while (cin >> flos) {
+            cout << solve(0, flos, cur, dp) << endl;
+        }
+    }
+//remember data type long long or int
+
+}
