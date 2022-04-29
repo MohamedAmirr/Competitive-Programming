@@ -1,0 +1,75 @@
+//#pragma GCC optimize("Ofast")
+//#pragma GCC target("avx,avx2,fma")
+ 
+#include <bits/stdc++.h>
+ 
+#define besmellah ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+using namespace std;
+typedef long long ll;
+typedef long double ld;
+typedef unsigned long long ull;
+const ll INF = 1e9 + 7;
+const int OO = 0x3f3f3f3f;
+const ll LOO = 0x3f3f3f3f3f3f3f3f;
+const ll MOD = 1e9 + 7;
+const ll N = 1e2;
+#define all(a)  a.begin(),a.end()
+#define M_PI 3.14159265358979323846
+#define endl '\n'
+const int dx[] = {+0, +0, +1, -1, +1, -1, +1, -1};
+const int dy[] = {+1, -1, +0, +0, +1, -1, -1, +1};
+int knightDx[] = {+1, -1, +2, +2, -2, -2, +1, -1};
+int knightDy[] = {+2, +2, +1, -1, +1, -1, -2, -2};
+//#define int long long
+ 
+int nn, a, b;
+vector<int> o, n, w;
+int dp[1024][500][500];
+ 
+int solve(int i, int ox, int ni) {
+	if (ox == 0 and ni == 0)return 0;
+    if (i >= nn)return OO;
+    
+ 
+    int &ret = dp[i][ox][ni];
+    if (~ret)return ret;
+ 
+    int op1 = solve(i + 1, max(0, ox - o[i]), max(0, ni - n[i])) + w[i];
+    int op2 = solve(i + 1, ox, ni);
+    return dp[i][ox][ni] = min(op2, op1);
+}
+ 
+ 
+signed main() {
+    besmellah
+// Ù�Ø§ ØªØ­Ø³Ø¨Ù� Ø§Ù�Ù�Ø¬Ø¯ ØªÙ�Ø±Ø§ Ø§Ù�Øª Ø§Ù�Ù�Ù� Ù�Ù� ØªØ¨Ù�Øº Ø§Ù�Ù�Ø¬Ø¯ Ø­ØªÙ� ØªÙ�Ø¹Ù� Ø§Ù�ØµØ¨Ø± â�¤
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#else
+    //freopen("", "r", stdin);
+#endif
+    int T = 1;
+    cin >> T;
+//remember data type long long or int
+    while (T--) {
+        cin >> a >> b >> nn;
+        o.resize(nn);
+        n.resize(nn);
+        w.resize(nn);
+        for (int i = 0; i < nn; ++i) {
+            cin >> o[i] >> n[i] >> w[i];
+        }
+        for (int i = 0; i <= nn; ++i) {
+            for (int j = 0; j <= a; ++j) {
+                for (int k = 0; k <= b; ++k) {
+                    dp[i][j][k] = -1;
+                }
+            }
+        }
+        dp[0][0][0] = 1;
+        cout << solve(0, a, b) << endl;
+    }
+//remember data type long long or int
+ 
+} 
