@@ -22,44 +22,6 @@ int knightDx[] = {+1, -1, +2, +2, -2, -2, +1, -1};
 int knightDy[] = {+2, +2, +1, -1, +1, -1, -2, -2};
 //#define int long long
 
-ll egcd(ll a, ll b, ll &x, ll &y) { /// ax + by = gcd(a,b)
-    if (!b) {
-        x = 1;
-        y = 0;
-        return a;
-    }
-    ll g = egcd(b, a % b, y, x);
-    y -= (a / b) * x;
-    return g;
-}
-
-ll modInverse(ll a, ll m) { /// (a/b)%m = ((a%m)*(modInverse(b)%m))%m
-    ll x, y, g;
-    g = egcd(a, m, x, y);
-    if (g > 1)
-        return -1;
-    return (x + m) % m;
-}
-
-ll pushB(ll h1, ll h2, ll xp, ll p) { // xp = x^(lenToPush(h2))
-    return ((h1 * xp) % p + h2) % p;
-}
-
-ll pushF(ll h1, ll h2, ll xp, ll p) { // xp = x^(mainLen(h1))
-    return (h1 + (h2 * xp) % p) % p;
-}
-
-ll popF(ll h1, ll h2, ll xp, ll p) { // xp = x^(mainLen(h1)- lenToPop(h2))
-    return (h1 - ((h2 * xp) % p) + p) % p;
-}
-
-ll popB(ll h1, ll h2, ll xp, ll p) {  // xp = x^(LenToPop(h2))
-    return ((((h1 - h2) + p) % p) * modInverse(xp, p) % p) % p;
-}
-
-ll get(int l, int r, vector<ll> &H, ll xp, ll p) {
-    return l > 0 ? popF(H[r], H[l - 1], xp, p) : H[r];
-}
 
 signed main() {
     besmellah
