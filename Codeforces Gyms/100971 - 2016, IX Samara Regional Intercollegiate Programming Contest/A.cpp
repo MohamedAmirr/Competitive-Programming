@@ -101,7 +101,6 @@ signed main() {
                 else arr[que[i].first][que[i].second] = '#';
             } else {
                 arr[que[i].first][que[i].second] = '?';
-//                c++;
             }
             if (c > 1) {
                 cout << "Ambiguous\n";
