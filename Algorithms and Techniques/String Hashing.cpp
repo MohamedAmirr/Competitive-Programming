@@ -70,6 +70,15 @@ signed main() {
 #else
     //freopen("", "r", stdin);
 #endif
+    ll x = 128;
+    vector<ll> xp1(1e5 + 1), xp2(1e5 + 1);
+    xp1[0] = 1;
+    xp2[0] = 1;
+    ll p1 = 1e9 + 7, p2 = 1e9 + 9;
+    for (int i = 1; i <= 1e5; i++) {
+        xp1[i] = (x * xp1[i - 1]) % p1;
+        xp2[i] = (x * xp2[i - 1]) % p2;
+    }
     int T = 1;
     cin >> T;
 //remember data type long long or int
