@@ -21,7 +21,7 @@ const int dx[] = {+0, +0, +1, -1, +1, -1, +1, -1};
 const int dy[] = {+1, -1, +0, +0, +1, -1, -1, +1};
 int knightDx[] = {+1, -1, +2, +2, -2, -2, +1, -1};
 int knightDy[] = {+2, +2, +1, -1, +1, -1, -2, -2};
-#define int long long
+//#define int long long
 
 
 signed main() {
@@ -39,12 +39,12 @@ signed main() {
     while (T--) {
         int n;
         cin >> n;
-        deque<int> d(n);
+        deque<ll> d(n);
         for (int i = 0; i < n; ++i) {
             cin >> d[i];
         }
-        int l = 0, r = 0;
-        priority_queue<int> st;
+        ll l = 0, r = 0;
+        priority_queue<ll> st;
         bool ch = 1;
         while (d.size()) {
             st.push(-d.front());
