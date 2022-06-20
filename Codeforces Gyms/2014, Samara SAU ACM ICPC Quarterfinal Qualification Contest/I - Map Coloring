@@ -77,16 +77,16 @@ signed main() {
             numOfEdges.push_back({nodes[i]->neighbours.size(), nodes[i]});
         }
         sort(all(numOfEdges));
-        map<int, int> mp;
-        int pp = 1;
+        map<int, int> color;
+        int colNum = 1;
         bool noAns = 0;
         for (int i = 0; i < numOfEdges.size(); ++i) {
-            bool ch = 0;
+            bool useColor = 0;
             for (int j = 0; j < n; ++j) {// paint nodes that are not connected to numOfEdges[i].second with the same col
-                if (!mp[nodes[j]->id] and nodes[j]->id != numOfEdges[i].second->id and
+                if (!color[nodes[j]->id] and nodes[j]->id != numOfEdges[i].second->id and
                     find(all(numOfEdges[i].second->neighbours), nodes[j]) == numOfEdges[i].second->neighbours.end()) {
-                    if (!ch and mp[numOfEdges[i].second->id]) {
-                        // if we paint (numOfEdges[i].second) before 
+                    if (!useColor and color[numOfEdges[i].second->id]) {
+                        // if we paint (numOfEdges[i].second) before
                         // and there are nodes not connected to this node
                         // this mean that this node (nodes[j])
                         // not connected to numOfEdges[i].second and connected to prev node
@@ -94,16 +94,16 @@ signed main() {
                         noAns = 1;
                         break;
                     }
-                    nodes[j]->col = pp;
-                    mp[nodes[j]->id] = pp;
-                    mp[numOfEdges[i].second->id] = pp;
-                    numOfEdges[i].second->col = pp;
-                    ch = 1;
+                    nodes[j]->col = colNum;
+                    color[nodes[j]->id] = colNum;
+                    color[numOfEdges[i].second->id] = colNum;
+                    numOfEdges[i].second->col = colNum;
+                    useColor = 1;
                 }
             }
             if (noAns)break;
-            if (ch)
-                pp++;
+            if (useColor)
+                colNum++;
         }
         if (noAns) {
             cout << -1 << endl;
@@ -112,7 +112,7 @@ signed main() {
 
         int c = 0;
         for (int i = 0; i < n; ++i) {
-            if (!mp[i]) {
+            if (!color[i]) {
                 c++;
             }
         }
@@ -122,11 +122,11 @@ signed main() {
                 break;
             }
         }
-        if (noAns or k - (pp - 1) < c) {
+        if (noAns or k - (colNum - 1) < c) {
             cout << -1 << endl;
         } else {
             for (int i = 0; i < n; ++i) {
-                if (nodes[i]->col == 0)cout << pp++ << ' ';
+                if (nodes[i]->col == 0)cout << colNum++ << ' ';
                 else cout << nodes[i]->col << ' ';
             }
         }
