@@ -1,4 +1,4 @@
 # Competitive-Programming
-Codeforces Handle: ITADORII '\n'
+Codeforces Handle: ITADORII <br />
 Soltution, Algorithms and techniques for problem solving with C++
 
