@@ -1,0 +1,59 @@
+//#pragma GCC optimize("Ofast")
+//#pragma GCC target("avx,avx2,fma")
+
+#include <bits/stdc++.h>
+
+#define besmellah ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+using namespace std;
+typedef long long ll;
+typedef long double ld;
+typedef unsigned long long ull;
+const ll INF = 1e9 + 7;
+const int OO = 0x3f3f3f3f;
+const ll LOO = 0x3f3f3f3f3f3f3f3f;
+const ll MOD = 1e9 + 7;
+const ll N = 1e2;
+const double EPS = 1e-6;
+#define M_PI 3.14159265358979323846
+#define all(a)  a.begin(),a.end()
+#define endl '\n'
+const int dx[] = {+0, +0, +1, -1, +1, -1, +1, -1};
+const int dy[] = {+1, -1, +0, +0, +1, -1, -1, +1};
+int knightDx[] = {+1, -1, +2, +2, -2, -2, +1, -1};
+int knightDy[] = {+2, +2, +1, -1, +1, -1, -2, -2};
+//#define int long long
+
+
+signed main() {
+    besmellah
+//Sky is the limit ❤
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#else
+    //freopen("", "r", stdin);
+#endif
+    int T = 1;
+    //cin >> T;
+//remember data type long long or int
+    while (T--) {
+        double a, b, c, smallR;
+        vector<double> v(3);
+        cin >> v[0] >> v[1] >> v[2];
+        sort(all(v));
+        a = v[0];
+        b = v[1];
+        c = v[2];
+        cin >> smallR;
+        double s = (a + b + c) / 2.0;
+        double bigArea = sqrt(s * (s - a) * (s - b) * (s - c));//area of Garden
+        double bigR = bigArea / s;//biggest radius of circle that can put into triangle
+        double ratio = (smallR / bigR) * (smallR / bigR);
+        // ratio between two Radius == ratio between small Area of triangle
+        double smallArea = bigArea * ratio;// get area of small triangle
+        double wanted = (smallArea - (smallR * smallR * M_PI)) / (bigArea);
+        cout << fixed << setprecision(9) << 1.0 - wanted << endl;
+    }
+//remember data type long long or int
+
+}
