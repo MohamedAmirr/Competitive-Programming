@@ -1,0 +1,137 @@
+//#pragma GCC optimize("Ofast")
+//#pragma GCC target("avx,avx2,fma")
+
+#include <bits/stdc++.h>
+
+#define besmellah ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+using namespace std;
+typedef long long ll;
+typedef long double ld;
+typedef unsigned long long ull;
+const ll INF = 1e9 + 7;
+const int OO = 0x3f3f3f3f;
+const ll LOO = 0x3f3f3f3f3f3f3f3f;
+const ll MOD = 1e9 + 7;
+const ll N = 1e2;
+const double EPS = 1e-6;
+#define M_PI 3.14159265358979323846
+#define all(a)  a.begin(),a.end()
+#define endl '\n'
+const int dx[] = {+0, +0, +1, -1, +1, -1, +1, -1};
+const int dy[] = {+1, -1, +0, +0, +1, -1, -1, +1};
+int knightDx[] = {+1, -1, +2, +2, -2, -2, +1, -1};
+int knightDy[] = {+2, +2, +1, -1, +1, -1, -2, -2};
+//#define int long long
+
+struct Node {
+    int id = -1;
+    int vis = 0;
+    int col = 0;
+
+    vector<Node *> neighbours;
+
+    Node(int id) : id(id) {};
+};
+
+
+bool dfs(Node *node) {
+    node->vis = 1;
+    for (auto &s: node->neighbours) {
+        if (s->col == node->col and s->col)return 0;
+        if (!s->vis) {
+            return dfs(s);
+        }
+    }
+    return 1;
+}
+
+
+signed main() {
+    besmellah
+//Sky is the limit ❤
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#else
+    //freopen("", "r", stdin);
+#endif
+    int T = 1;
+    //cin >> T;
+//remember data type long long or int
+    while (T--) {
+        int n, m, k;
+        cin >> n >> m >> k;
+        vector<Node *> nodes(n);
+        for (int i = 0; i < n; ++i) {
+            nodes[i] = new Node(i);
+        }
+        vector<pair<int, Node *>> numOfEdges;
+        for (int i = 0; i < m; ++i) {
+            int a, b;
+            cin >> a >> b;
+            a--, b--;
+            nodes[a]->neighbours.push_back(nodes[b]);
+            nodes[b]->neighbours.push_back(nodes[a]);
+        }
+        for (int i = 0; i < n; ++i) {// get all sizes for all nodes to sort it ascending by number of edges
+            numOfEdges.push_back({nodes[i]->neighbours.size(), nodes[i]});
+        }
+        sort(all(numOfEdges));
+        map<int, int> mp;
+        int pp = 1;
+        bool noAns = 0;
+        for (int i = 0; i < numOfEdges.size(); ++i) {
+            bool ch = 0;
+            for (int j = 0; j < n; ++j) {// paint nodes that are not connected to numOfEdges[i].second with the same col
+                if (!mp[nodes[j]->id] and nodes[j]->id != numOfEdges[i].second->id and
+                    find(all(numOfEdges[i].second->neighbours), nodes[j]) == numOfEdges[i].second->neighbours.end()) {
+                    if (!ch and mp[numOfEdges[i].second->id]) {
+                        // if we paint (numOfEdges[i].second) before 
+                        // and there are nodes not connected to this node
+                        // this mean that this node (nodes[j])
+                        // not connected to numOfEdges[i].second and connected to prev node
+                        // so there is no answer and print -1
+                        noAns = 1;
+                        break;
+                    }
+                    nodes[j]->col = pp;
+                    mp[nodes[j]->id] = pp;
+                    mp[numOfEdges[i].second->id] = pp;
+                    numOfEdges[i].second->col = pp;
+                    ch = 1;
+                }
+            }
+            if (noAns)break;
+            if (ch)
+                pp++;
+        }
+        if (noAns) {
+            cout << -1 << endl;
+            continue;
+        }
+
+        int c = 0;
+        for (int i = 0; i < n; ++i) {
+            if (!mp[i]) {
+                c++;
+            }
+        }
+        for (int i = 0; i < n; ++i) {
+            if (!dfs(nodes[i])) {
+                noAns = 1;
+                break;
+            }
+        }
+        if (noAns or k - (pp - 1) < c) {
+            cout << -1 << endl;
+        } else {
+            for (int i = 0; i < n; ++i) {
+                if (nodes[i]->col == 0)cout << pp++ << ' ';
+                else cout << nodes[i]->col << ' ';
+            }
+        }
+
+    }
+//remember data type long long or int
+
+}
