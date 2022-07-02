@@ -1,0 +1,85 @@
+//#pragma GCC optimize("Ofast")
+//#pragma GCC target("avx,avx2,fma")
+
+#include <bits/stdc++.h>
+
+#define besmellah ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+using namespace std;
+typedef long long ll;
+typedef long double ld;
+typedef unsigned long long ull;
+const ll INF = 1e9 + 7;
+const int OO = 0x3f3f3f3f;
+const ll LOO = 0x3f3f3f3f3f3f3f3f;
+const ll MOD = 1e9 + 7;
+const ll N = 1e2;
+const double EPS = 1e-6;
+#define M_PI 3.14159265358979323846
+#define all(a)  a.begin(),a.end()
+//#define endl '\n'
+const int dx[] = {+0, +0, +1, -1, +1, -1, +1, -1};
+const int dy[] = {+1, -1, +0, +0, +1, -1, -1, +1};
+int knightDx[] = {+1, -1, +2, +2, -2, -2, +1, -1};
+int knightDy[] = {+2, +2, +1, -1, +1, -1, -2, -2};
+//#define int long long
+
+
+signed main() {
+    besmellah
+//Sky is the limit ❤
+    int T = 1;
+    //cin >> T;
+//remember data type long long or int
+    while (T--) {
+        int n;
+        cin >> n;
+        int l = 0, r = (n + 1) / 2;
+        r--;
+        int numOfQ = (n + 1) / 2;
+        map<int, bool> mp;
+        set<int> prev1;
+        vector<int> final(n);
+        set<int> v;
+        bool ch = 0;
+        while (numOfQ--) {
+            l++, r++;
+            cout.flush() << "Q " << l << ' ' << r << endl;
+            vector<int> ans;
+            set<int> nw;
+            for (int i = 0; i < r - l + 1; ++i) {
+                int s;
+                cin >> s;
+                nw.insert(s);
+                prev1.erase(s);
+                if (v.find(s) != v.end() or !ch)
+                    v.insert(s);
+                else {
+                    ans.push_back(s);
+                    v.insert(s);
+                }
+            }
+            ch = 1;
+            if (ans.size()) {
+                final[r - 1] = ans.back();
+                mp[final[r - 1]] = 1;
+                if (prev1.size()) {
+                    final[l - 2] = *prev1.begin();
+                    mp[final[l - 2]] = 1;
+                }
+            }
+            prev1 = nw;
+        }
+        for (int i = 0; i < n; ++i) {
+            if (!mp[i + 1] and v.find(i + 1) != v.end())
+                final[(n / 2) - !(n & 1)] = i + 1;
+            if (v.find(i + 1) == v.end())
+                final[final.size() - 1] = i + 1;
+        }
+        cout << "A ";
+        for (int i = 0; i < final.size(); ++i) {
+            cout.flush() << final[i] << ' ';
+        }
+    }
+//remember data type long long or int
+
+}
