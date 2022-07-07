@@ -1,0 +1,114 @@
+//#pragma GCC optimize("Ofast")
+//#pragma GCC target("avx,avx2,fma")
+
+#include <bits/stdc++.h>
+
+#define besmellah ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+using namespace std;
+typedef long long ll;
+typedef long double ld;
+typedef unsigned long long ull;
+const ll INF = 1e9 + 7;
+
+const int OO = 0x3f3f3f3f;
+const ll LOO = 0x3f3f3f3f3f3f3f3f;
+const ll MOD = 1e9 + 7;
+const ll N = 1e2;
+const double EPS = 1e-6;
+#define M_PI 3.14159265358979323846
+#define all(a)  a.begin(),a.end()
+#define endl '\n'
+
+int lg(int n) { return 31 - __builtin_clz(n); }
+
+const int dx[] = {+0, +0, +1, -1, +1, -1, +1, -1};
+const int dy[] = {+1, -1, +0, +0, +1, -1, -1, +1};
+int knightDx[] = {+1, -1, +2, +2, -2, -2, +1, -1};
+int knightDy[] = {+2, +2, +1, -1, +1, -1, -2, -2};
+//#define int long long
+
+struct Node {
+    int id = -1;
+    int dep = 0;
+    vector<Node *> children, ancestors;
+
+    Node(int id) : id(id) {};
+};
+
+struct LCA {
+    void dfs(Node *node, Node *par = nullptr) {
+        if (par != nullptr) {
+            node->dep = par->dep + 1;
+            node->ancestors.push_back(par);
+            for (int i = 1; (1 << i) <= node->dep; ++i)
+                node->ancestors.push_back(node->ancestors[i - 1]->ancestors[i - 1]);
+        }
+        for (auto &s:node->children) {
+            if (s == par)continue;
+            dfs(s, node);
+        }
+    }
+
+    Node *getKAnc(Node *node, int k) {
+        k = min(node->dep, k);
+        for (int i = 0; (1 << i) <= k; ++i)
+            if ((1 << i) & k)
+                node = node->ancestors[i];
+        return node;
+    }
+
+    Node*getLCA(Node*u,Node*v){
+        if(u->dep<v->dep)swap(u,v);
+        int k=u->dep-v->dep;
+        u=getKAnc(u,k);
+
+        if(u==v)return u;
+
+        int m=__lg(u->dep);
+
+        for(int i=m;i>=0;i--){
+            if(u->ancestors[i]!=v->ancestors[i]){
+                u=u->ancestors[i];
+                v=v->ancestors[i];
+            }
+        }
+        return u->ancestors[0];
+    }
+};
+
+signed main() {
+//    besmellah
+//Sky is the limit ❤
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#else
+//    freopen("", "r", stdin);
+#endif
+    int T = 1;
+    //cin >> T;
+//remember data type long long or int
+    while (T--) {
+        int n;
+        cin>>n;
+        LCA hoba;
+        vector<Node*>nodes(n);
+        for (int i = 0; i < n; ++i) {
+            nodes[i]=new Node(i);
+        }
+        for (int i = 0; i < n; ++i) {
+            int m;
+            cin>>m;
+            while(m--){
+                int a,b=i;
+                cin>>a;
+                nodes[a]->children.push_back(nodes[b]);
+                nodes[b]->children.push_back(nodes[a]);
+            }
+        }
+        hoba.dfs(nodes[0]);
+        
+    }
+//remember data type long long or int
+
+}
