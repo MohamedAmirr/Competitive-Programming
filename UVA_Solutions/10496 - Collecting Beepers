@@ -1,0 +1,80 @@
+//#pragma GCC optimize("Ofast")
+//#pragma GCC target("avx,avx2,fma")
+
+#include <bits/stdc++.h>
+
+#define besmellah ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+using namespace std;
+typedef long long ll;
+typedef long double ld;
+typedef unsigned long long ull;
+const ll INF = 1e9 + 7;
+
+const int OO = 0x3f3f3f3f;
+const ll LOO = 0x3f3f3f3f3f3f3f3f;
+const ll MOD = 1e9 + 7;
+const ll N = 1e5;
+const double EPS = 1e-6;
+#define M_PI 3.14159265358979323846
+#define all(a)  a.begin(),a.end()
+#define endl '\n'
+
+int lg(int n) { return 31 - __builtin_clz(n); }
+
+const int dx[] = {+0, +0, +1, -1, +1, -1, +1, -1};
+const int dy[] = {+1, -1, +0, +0, +1, -1, -1, +1};
+int knightDx[] = {+1, -1, +2, +2, -2, -2, +1, -1};
+int knightDy[] = {+2, +2, +1, -1, +1, -1, -2, -2};
+//#define int long long
+
+vector<pair<int, int>> hoba;
+int n, m;
+int q;
+int st, en;
+
+int solve(int i, int msk, vector<vector<int>> &dp, int prev) {
+    if (msk == (1 << q) - 1)return abs(hoba[prev].first - st) + abs(hoba[prev].second - en);
+
+    int &ret = dp[prev][msk];
+    if (~ret)return ret;
+    int op1 = OO;
+    ret = 0;
+    for (int j = 0; j < hoba.size(); ++j) {
+        if ((1 << j) & msk)continue;
+        if (i == 0) {
+            op1 = min(op1, solve(i + 1, msk | (1 << j), dp, j) + abs(hoba[j].first - st) +
+                           abs(hoba[j].second - en));
+        } else
+            op1 = min(op1, solve(i + 1, msk | (1 << j), dp, j) + abs(hoba[prev].first - hoba[j].first) +
+                           abs(hoba[prev].second - hoba[j].second));
+    }
+    return ret += op1;
+}
+
+signed main() {
+    besmellah
+//Sky is the limit ❤
+#ifdef CLION
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#else
+    //freopen("", "r", stdin);
+#endif
+    int T = 1;
+    cin >> T;
+//remember data type long long or int
+    while (T--) {
+        cin >> n >> m;
+        cin >> st >> en;
+        cin >> q;
+        vector<vector<int>> dp(q, vector<int>((1 << q) + 1, -1));
+        hoba.resize(q);
+        for (int i = 0; i < q; i++) {
+            cin >> hoba[i].first;
+            cin >> hoba[i].second;
+        }
+        cout << "The shortest path has length " << solve(0, 0, dp, NULL) << endl;
+    }
+//remember data type long long or int
+
+}
