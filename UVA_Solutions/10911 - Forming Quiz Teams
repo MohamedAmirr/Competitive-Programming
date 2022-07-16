@@ -1,0 +1,95 @@
+//#pragma GCC optimize("Ofast")
+//#pragma GCC target("avx,avx2,fma")
+
+#include <bits/stdc++.h>
+
+#define besmellah ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+using namespace std;
+typedef long long ll;
+typedef long double ld;
+typedef unsigned long long ull;
+const ll INF = 1e9 + 7;
+
+const int OO = 0x3f3f3f3f;
+const ll LOO = 0x3f3f3f3f3f3f3f3f;
+const ll MOD = 1e9 + 7;
+const ll N = 1e5;
+const double EPS = 1e-6;
+#define M_PI 3.14159265358979323846
+#define all(a)  a.begin(),a.end()
+#define endl '\n'
+
+int lg(int n) { return 31 - __builtin_clz(n); }
+
+const int dx[] = {+0, +0, +1, -1, +1, -1, +1, -1};
+const int dy[] = {+1, -1, +0, +0, +1, -1, -1, +1};
+int knightDx[] = {+1, -1, +2, +2, -2, -2, +1, -1};
+int knightDy[] = {+2, +2, +1, -1, +1, -1, -2, -2};
+//#define int long long
+
+map<int, pair<double, double>> cor;
+int n;
+
+double solve(int i, int msk, vector<vector<double>> &dp) {
+    if (msk == (1 << (2 * n)) - 1)return 0;
+    for (int j = 0; j < 2 * n; ++j) {
+        if ((1 << j) & msk)continue;
+        i = j;
+        msk = msk | (1 << j);
+        break;
+    }
+    double &ret = dp[i][msk];
+    if (ret != -1)return ret;
+
+    double op1 = OO;
+
+    for (int j = 0; j < 2 * n; ++j) {
+        if ((1 << j) & msk)continue;
+        op1 = min(op1, solve(i, msk | (1 << j), dp) +
+                       sqrt(abs(cor[i].first - cor[j].first) * abs(cor[i].first - cor[j].first) +
+                            abs(cor[i].second - cor[j].second) * abs(cor[i].second - cor[j].second)));
+    }
+    return ret = op1;
+}
+
+
+signed main() {
+    besmellah
+//Sky is the limit ❤
+#ifdef CLION
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#else
+    //freopen("", "r", stdin);
+#endif
+    int T = 1;
+    //cin >> T;
+//remember data type long long or int
+    while (T--) {
+        int u = 1;
+        while (cin >> n and n) {
+            vector<vector<double>> dp(2 * n, vector<double>(1 << (2 * n), -1));
+            map<string, int> id;
+            cin.ignore();
+            int idd = 0;
+            for (int i = 0; i < 2 * n; ++i) {
+                string s;
+                getline(cin, s);
+                string a;
+                while (!isdigit(s.front()))a += s.front(), s.erase(s.begin());
+                if (a.back() == ' ')a.pop_back();
+                id[a] = idd++;
+                int x = 0;
+                while (isdigit(s.front()))x *= 10, x += s.front() - '0', s.erase(s.begin());
+                if (s.front() == ' ')s.erase(s.begin());
+                int y = 0;
+                while (isdigit(s.front()))y *= 10, y += s.front() - '0', s.erase(s.begin());
+                cor[id[a]] = {x, y};
+            }
+            cout << "Case " << u++ << ": " << fixed << setprecision(2) << solve(0, 0, dp) << endl;
+        }
+
+    }
+//remember data type long long or int
+
+}
