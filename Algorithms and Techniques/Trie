@@ -1,0 +1,77 @@
+//#pragma GCC optimize("Ofast")
+//#pragma GCC target("avx,avx2,fma")
+
+#include <bits/stdc++.h>
+
+#define besmellah ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+using namespace std;
+typedef long long ll;
+
+#define all(a)  a.begin(),a.end()
+#define endl '\n'
+
+#define int long long
+
+
+class Trie {
+private:
+    struct Node {
+        bool isLeaf = 1;
+        vector<Node *> children = {};
+
+        Node() : children(vector<Node *>(26, NULL)) {}
+    };
+
+    Node *root = NULL;
+public:
+    Trie() {
+        root = new Node;
+    }
+
+
+    void add(string &s, int id) {
+        Node *node = root;
+        for (auto &ch: s) {
+            if (node->children[(ch - 'a')] == NULL) {
+                node->isLeaf = 0;
+                node->children[(ch - 'a')] = new Node;
+            }
+            node = node->children[(ch - 'a')];
+        }
+    }
+
+
+    void del(Node *x) {
+        for (auto &i: x->children) {
+            if (i != nullptr)
+                del(i);
+        }
+        delete x;
+    }
+
+    void del() {
+        del(root);
+    }
+
+
+};
+
+
+signed main() {
+    besmellah
+//Sky is the limit ❤
+#ifdef CLION
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#else
+    //freopen("", "r", stdin);
+#endif
+    int T = 1;
+    cin >> T;
+//remember data type long long or int
+    while (T--) {
+
+    }
+//remember data type long long or int
+
+}
