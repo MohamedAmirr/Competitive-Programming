@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define endl "\n"
+#define int long long
+#define ll long long
+
+int n,m;
+vector<int> v;
+
+bool valid(ll mid) {
+    int sum=0;
+    for (int i = 0; i < v.size(); ++i) {
+        if(v[i]<=sum){
+            sum++;
+            continue;
+        }
+        if(mid>0)
+        mid-=(v[i]>sum),sum++;
+    }
+    return sum>=m;
+}
+
+ll BS() {
+    ll l = 0, r = 1e18, mid;
+    ll ans = 1e18;
+    while (l <= r) {
+        mid = l + (r - l) / 2;
+        if (valid(mid)) {
+            r = mid - 1;
+            ans = min(mid, ans);
+        } else l = mid + 1;
+    }
+    return ans;
+}
+
+signed main() {
+    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
+#ifdef Clion
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+    cin >> n >> m;
+    v.resize(n);
+    for (int i = 0; i < n; i++)
+        cin >> v[i];
+    cout << BS() << endl;
+}
