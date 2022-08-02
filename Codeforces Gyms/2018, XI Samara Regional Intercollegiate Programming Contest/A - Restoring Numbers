@@ -1,0 +1,21 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define endl "\n"
+#define int long long
+
+
+signed main() {
+    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
+#ifdef Clion
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+    int sum,gcd;
+    cin >> sum >> gcd;
+    if(sum%gcd or sum/gcd <= 1){
+        cout << -1 << endl;
+        return 0;
+    }
+    cout << gcd << " " << ((((sum)/gcd)-1)*gcd) << endl;
+}
