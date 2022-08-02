@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+#define endl "\n"
+#define int long long
+
+
+signed main() {
+    ios_base::sync_with_stdio(false), cin.tie(nullptr), cout.tie(nullptr);
+#ifdef Clion
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+    int n;
+    cin >> n;
+    map<int, int> m;
+    for (int i = 0; i < n; i++) {
+        int x;
+        cin >> x;
+        m[x]++;
+    }
+    vector<int> ans;
+    for (auto i: m) {
+        int x = i.second;
+        if (x >= 2) {
+            if (x % 2) {
+                x--;
+                ans.push_back(x);
+            } else ans.push_back(x);
+        }
+    }
+    sort(ans.begin(), ans.end());
+
+    int res(0);
+    for (int i = 0; i < ans.size(); i++) {
+        res += (ans[i]);
+    }
+    cout << res/4 << endl;
+}
