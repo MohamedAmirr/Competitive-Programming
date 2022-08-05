@@ -31,11 +31,11 @@ int knightDy[] = {+2, +2, +1, -1, +1, -1, -2, -2};
 struct Node {
     int id = 0;
     int val = LOO;
+    int lazy = 0;//value that from it u know that there is no lazy Ex: find sum so lazy = 0
     pair<int, int> range = {};
 
     Node(int id, int val) : id(id), val(val) {};
 
-//    Node(int val) : val(val) {};
 
 };
 
@@ -44,9 +44,8 @@ struct SegmentTree {
     vector<Node *> tree;
     vector<int> arr;
 
-    void init(vector<int> &v) {
-        int n = 4 * v.size();
-        arr = v;
+    void init(int n) {
+        n *= 4;
         tree.resize(n);
         for (int i = 0; i < n; ++i) {
             tree[i] = new Node(i + 1, 0);
@@ -61,18 +60,6 @@ struct SegmentTree {
         }
         Node *hoba = new Node(0, hobaOla->val);
         return hoba;
-    }
-
-    void Build(int v, int tl, int tr) {
-        if (tr == tl) {
-            tree[v]->val = arr[tl];
-        } else {
-            int mid = (tl + tr) / 2;
-            Build(2 * v + 1, tl, mid);
-            Build(2 * v + 2, mid + 1, tr);
-            Node *node = combine(tree[2 * v + 1], tree[2 * v + 2]);
-            tree[v]->val = node->val;
-        }
     }
 
     void update(int v, int tl, int tr, int pos, int newVal) {
@@ -119,25 +106,12 @@ signed main() {
     while (T--) {
         int n, m;
         cin >> n >> m;
+        SegmentTree hoba;
+        hoba.init(n);
         vector<int> v(n);
         for (int i = 0; i < n; ++i) {
             cin >> v[i];
-        }
-        SegmentTree hoba;
-        hoba.init(v);
-        hoba.Build(0, 0, n);
-        while (m--) {
-            int type;
-            cin >> type;
-            if (type == 1) {
-                int pos, val;
-                cin >> pos >> val;
-                hoba.update(0, 0, n, pos, val);
-            } else {
-                int l, r;
-                cin >> l >> r;
-                cout << hoba.get(0, 0, n, l, r - 1)->val << endl;
-            }
+            hoba.update(0, 0, n, i, v[i]);
         }
     }
 //remember data type long long or int
